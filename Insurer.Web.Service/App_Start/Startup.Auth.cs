@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using static Insurer.Web.Service.IdentityConfig;
 
 namespace Insurer.Web.Service
@@ -31,7 +32,8 @@ namespace Insurer.Web.Service
         {
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(ApplicationDbContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);            
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -60,6 +62,7 @@ namespace Insurer.Web.Service
             // rather than using GlobalConfiguration.
             var config = new HttpConfiguration();
 
+            config.EnableCors(new EnableCorsAttribute("*", "*", "GET, POST, OPTIONS, PUT, DELETE"));
             config.Formatters.Remove(config.Formatters.XmlFormatter);
 
 
