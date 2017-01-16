@@ -35,7 +35,7 @@ namespace Insurer.Web.Service.Controllers
         }
 
         // GET: api/businesspartner/companies
-        [Authorize]
+        [Authorize(Roles = "Administrator")]
         [Route("companies/log")]
         [HttpGet]
         public IEnumerable<CompanyLogView> GetCompaniesLog()

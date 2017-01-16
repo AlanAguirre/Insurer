@@ -109,7 +109,8 @@ gulp.task('browserSync', ['build'], function() {
         server: {
             baseDir: DEFAULT_PATH,
             middleware: [ historyApiFallback() ]
-        }
+        },
+        https: true
     });
 });
 
