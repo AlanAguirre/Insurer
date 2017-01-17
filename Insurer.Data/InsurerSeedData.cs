@@ -32,11 +32,11 @@ namespace Insurer.Data
 
             var adminUser = new ApplicationUser()
             {
-                UserName = "admin@ensurance.com",
-                Email = "admin@ensurance.com",
+                UserName = "admin@insurance.com",
+                Email = "admin@insurance.com",
             };
 
-            IdentityResult user = manager.Create(adminUser, "P_assw0rd1");
+            IdentityResult user = manager.Create(adminUser, "admin123");
             
             if (user.Succeeded == false)
                 return user.Succeeded;
@@ -44,11 +44,11 @@ namespace Insurer.Data
             
             var contributorUser1 = new ApplicationUser()
             {
-                UserName = "contributo1@ensurance.com",
-                Email = "contributo1@ensurance.com",
+                UserName = "contributor1@insurance.com",
+                Email = "contributor1@insurance.com",
             };
 
-            user = manager.Create(contributorUser1, "contributo1");
+            user = manager.Create(contributorUser1, "contributor1");
             if (user.Succeeded == false)
                 return user.Succeeded;
             user = manager.AddToRole(contributorUser1.Id, "Contributor");
@@ -56,11 +56,11 @@ namespace Insurer.Data
 
             var contributorUser2 = new ApplicationUser()
             {
-                UserName = "contributo2@ensurance.com",
-                Email = "contributo2@ensurance.com",
+                UserName = "contributor2@insurance.com",
+                Email = "contributor2@insurance.com",
             };
 
-            user = manager.Create(contributorUser2, "contributo2");
+            user = manager.Create(contributorUser2, "contributor2");
             if (user.Succeeded == false)
                 return user.Succeeded;
             user = manager.AddToRole(contributorUser2.Id, "Contributor");
