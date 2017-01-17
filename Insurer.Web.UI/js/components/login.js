@@ -7,7 +7,6 @@ import Loading from './commons/loading'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
-import RefreshIndicator from 'material-ui/RefreshIndicator'
 
 export const Login = withRouter(
   React.createClass({

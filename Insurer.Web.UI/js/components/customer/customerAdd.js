@@ -97,13 +97,13 @@ class CustomerAdd extends React.Component{
                   hintText="Email"
                   floatingLabelText="Email"
                   type="email"
-                  required={true}
+                  required="required"
                 /><br/>
             <TextField
                 ref="phoneNumber"
                 hintText="Phone Number"
                 floatingLabelText="Phone Number"
-                required={"required"}
+                required="required"
                 /><br/>
              <TextField
                 ref="adress"
