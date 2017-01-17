@@ -11,3 +11,16 @@ body {
 html, body, #container{
     height: 100%;
 }
+
+.linkMenu{
+    color: darkgray;
+    margin-right: 20px
+}
+
+.linkMenuActive{
+    color: black;
+}
+
+.removeFirstTh > th:first-child {
+    display: none;
+}

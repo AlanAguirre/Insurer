@@ -69,7 +69,7 @@ class CustomerAdd extends React.Component{
   }
     
   render() {
-    const {insuranceTypes} = this.props
+    const {insuranceTypes, handleCancel} = this.props
     const createCheckbox = item => (
     <Checkbox
             item={{id: item.InsuranceTypeId, name: item.Name}}
@@ -88,19 +88,22 @@ class CustomerAdd extends React.Component{
             }
             <TextField
                     ref="name"
-                    hintText="Name*"
-                    floatingLabelText="Name*"
+                    hintText="Name"
+                    floatingLabelText="Name"
+                    required="required"
                     /><br/>
             <TextField
                   ref="email"
-                  hintText="Email*"
-                  floatingLabelText="Email*"
+                  hintText="Email"
+                  floatingLabelText="Email"
                   type="email"
+                  required={true}
                 /><br/>
             <TextField
                 ref="phoneNumber"
-                hintText="Phone Number*"
-                floatingLabelText="Phone Number*"
+                hintText="Phone Number"
+                floatingLabelText="Phone Number"
+                required={"required"}
                 /><br/>
              <TextField
                 ref="adress"
@@ -114,7 +117,7 @@ class CustomerAdd extends React.Component{
                 
                 <div style={{marginTop:20, display:'flex'}}>
                     <FlatButton label="Submit" primary={true} type="submit" />
-                    <FlatButton label="Cancel" /> 
+                    <FlatButton label="Cancel" onClick={handleCancel} /> 
                 </div>
                        
            </Paper>          
@@ -129,7 +132,8 @@ CustomerAdd.propTypes = {
     InsuranceTypeId: React.PropTypes.number,
     Name: React.PropTypes.string
   })).isRequired,
-  handleCreateCustomer: React.PropTypes.func.isRequired
+  handleCreateCustomer: React.PropTypes.func.isRequired,
+  handleCancel: React.PropTypes.func.isRequired
 }
 
 export default CustomerAdd

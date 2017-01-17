@@ -3,16 +3,13 @@ import auth from "../help/auth"
 import { browserHistory, Router, Route, Link, withRouter } from 'react-router'
 
 
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
-import Toggle from 'material-ui/Toggle';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import AppBar from 'material-ui/AppBar'
+import IconButton from 'material-ui/IconButton'
+import IconMenu from 'material-ui/IconMenu'
+import MenuItem from 'material-ui/MenuItem'
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
 
 import {Login} from "./login"
 
@@ -58,7 +55,9 @@ componentDidMount(){
        }} />
       </IconMenu>
     )
-        
+    
+   Logged.muiName = 'IconMenu';
+    
     return (
       <MuiThemeProvider>        
         <div>
@@ -70,8 +69,8 @@ componentDidMount(){
           {this.state.loggedIn ? (
             <Toolbar>
               <ToolbarGroup>
-                <Link to="/customers">Customers</Link>
-                <Link to="/businesspartner">Business Partners</Link>
+                <Link className={"linkMenu"} activeClassName={"linkMenuActive"} to="/customers">Customers</Link>
+                <Link className={"linkMenu"} activeClassName={"linkMenuActive"} to="/businesspartner">Business Partners</Link>
               </ToolbarGroup>              
             </Toolbar>
           ) : (

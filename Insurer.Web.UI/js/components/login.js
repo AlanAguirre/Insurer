@@ -2,7 +2,8 @@ import React from "react"
 import auth from "../help/auth"
 import { browserHistory, Router, Route, Link, withRouter } from 'react-router'
 
-import {ErrorMessage} from './commons/errorMessage'
+import ErrorMessage from './commons/errorMessage'
+import Loading from './commons/loading'
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card'
@@ -48,16 +49,7 @@ export const Login = withRouter(
           
           <Card style={{position: 'relative', width: 300, marginLeft: 'auto', marginRight: 'auto', marginTop:20}}>          
              {this.state.isLoading && (
-                <div style={{position: 'absolute', zIndex:10, width: '100%', height: '100%', backgroundColor:'rgba(255,255,255, 0.5)'}}>
-                  <RefreshIndicator
-                    size={40}
-                    left={10}
-                    top={0}
-                    status="loading"
-                    style={{transform:'translateX(-50%) translateY(-50%)', top: '50%', left:'50%'}}
-                  />
-                </div>
-                                                  
+                <Loading />                                                  
               )}   
             <CardTitle title="Login" />
             <CardText>
@@ -69,13 +61,15 @@ export const Login = withRouter(
                   ref="email"
                   hintText="Email"
                   floatingLabelText="Email"
-                  type="email"
+                  type="email" 
+                  required="required"
                 />
                 <TextField
                   ref="pass"
                   hintText="Password"
                   floatingLabelText="Password"
-                  type="password"
+                  type="password" 
+                  required="required"
                 />          
               </div>
             </CardText>

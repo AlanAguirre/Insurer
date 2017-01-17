@@ -5,5 +5,6 @@ export const config = {
     login : "/api/login",
     customer: "/api/customer",
     isAdmin: "/api/user/admin",
-    insuranceTypes: "/api/insurance/type"
+    insuranceTypes: "/api/insurance/type",
+    companiesLog: "/api/businesspartner/companies/log"
 }

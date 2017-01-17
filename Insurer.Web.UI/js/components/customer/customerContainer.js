@@ -120,21 +120,21 @@ export default class CustomerContainer extends React.Component{
   render() {
         
     return (
-      <div>
+      <div style={{paddingRight: 50, paddingLeft: 50}}>
         <h2>
           Customer
         </h2>
         
         {!this.state.addCustomer ? 
           <div>
-            <div>
+            <div style={{display:'flex', justifyContent:'flex-end'}}>
               <FlatButton label="Add Customer" onClick={this.goToAddCustomer} disabled={!this.state.enableAddCustomer} />
             </div>
-            <CustomerList customers={this.state.customers} />
+            <CustomerList customers={this.state.customers} isLoading={this.state.isLoading} />
           </div>
          :
          (this.state.insuranceTypes.length > 0 ?
-          <CustomerAdd insuranceTypes={this.state.insuranceTypes} handleCreateCustomer={this.createCustomer}  />
+          <CustomerAdd insuranceTypes={this.state.insuranceTypes} handleCreateCustomer={this.createCustomer} handleCancel={()=>{this.setState({addCustomer : false})}}  />
           :
           <ErrorMessage message={"Error to load insurance type"} /> 
          )

@@ -1,5 +1,6 @@
 import React from "react"
 
+import Loading from "../commons/loading"
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 export default class CustomerList extends React.Component{
@@ -10,25 +11,29 @@ export default class CustomerList extends React.Component{
   render() {
             
     return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHeaderColumn>Name</TableHeaderColumn>
-                    <TableHeaderColumn>Email</TableHeaderColumn>
-                    <TableHeaderColumn>Phone Number</TableHeaderColumn>
-                    <TableHeaderColumn>Creation Date</TableHeaderColumn>
-                    <TableHeaderColumn>Adress</TableHeaderColumn>
-                    <TableHeaderColumn>Insurance Types</TableHeaderColumn>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {this.props.customers.map( (row, index) => (
-                    <TableRow key={row.CustomerId}>
-                        <TableRowColumn>{row.Name}</TableRowColumn>
-                        <TableRowColumn>{row.Email}</TableRowColumn>
-                        <TableRowColumn>{row.PhoneNumber}</TableRowColumn>
-                        <TableRowColumn>{row.CreationDate}</TableRowColumn>
-                        <TableRowColumn>{row.Adress}</TableRowColumn>
+        <div style={{position: 'relative'}}>
+            {this.props.customers.length === 0 && this.props.isLoading &&
+            <Loading />  
+            }     
+            <Table>
+                <TableHeader displaySelectAll={false}>
+                    <TableRow className={"removeFirstTh"}>
+                        <TableHeaderColumn>Name</TableHeaderColumn>
+                        <TableHeaderColumn>Email</TableHeaderColumn>
+                        <TableHeaderColumn>Phone Number</TableHeaderColumn>
+                        <TableHeaderColumn>Creation Date</TableHeaderColumn>
+                        <TableHeaderColumn>Address</TableHeaderColumn>
+                        <TableHeaderColumn>Insurance Types</TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody displayRowCheckbox={false}>                
+                   {this.props.customers.map( (row, index) => (
+                    <TableRow key={row.CustomerId}>                        
+                        <TableRowColumn title={row.Name}>{row.Name}</TableRowColumn>
+                        <TableRowColumn title={row.Email}>{row.Email}</TableRowColumn>
+                        <TableRowColumn title={row.PhoneNumber}>{row.PhoneNumber}</TableRowColumn>
+                        <TableRowColumn title={row.CreationDate}>{row.CreationDate}</TableRowColumn>
+                        <TableRowColumn title={row.Address}>{row.Address}</TableRowColumn>
                         <TableRowColumn>{
                             row.InsuranceTypes.map((type) => {
                             return <div>{type.Name}</div>
@@ -36,9 +41,10 @@ export default class CustomerList extends React.Component{
                     }
                         </TableRowColumn>
                     </TableRow>
-                ))}                
-            </TableBody>
-        </Table>      
+                    ))}           
+                </TableBody>
+            </Table>  
+        </div>    
     )
   }
 

@@ -6,6 +6,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import App from "./components/app"
 import CustomerContainer from "./components/customer/customerContainer.js"
+import BusinessPartnerContainer from "./components/businesspartner/businesspartnerContainer"
 import {Login} from "./components/login"
 import auth from './help/auth'
 import {config} from "./help/config"
@@ -28,6 +29,7 @@ ReactDOM.render((
       
       <Route path="login" component={Login} />
       <Route path="customers" component={CustomerContainer} onEnter={requireAuth} />
+      <Route path="businesspartner" component={BusinessPartnerContainer} onEnter={requireAuth} />
     </Route>
   </Router>
 ), document.getElementById("container"))
