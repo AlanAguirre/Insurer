@@ -13,6 +13,7 @@ using System.Web.Http.Cors;
 namespace Insurer.Web.Service.Controllers
 {
     [EnableCors(origins: "https://localhost:3000", headers: "*", methods: "*")]
+    [AllowAnonymous]
     [RoutePrefix("api/insurance")]
     public class InsuranceController : ApiController
     {
@@ -31,6 +32,11 @@ namespace Insurer.Web.Service.Controllers
             this.companyLogService = companyLogService;
         }
 
+        /// <summary>
+        /// Gets a list with all insurance types 
+        /// </summary>
+        /// <returns></returns>
+        [AllowAnonymous]
         [Route("type")]
         public IEnumerable<InsuranceTypeViewModel> Get()
         {
@@ -38,25 +44,17 @@ namespace Insurer.Web.Service.Controllers
             return Mapper.Map<IEnumerable<InsuranceType>, IEnumerable<InsuranceTypeViewModel>>(types);
         }
 
+        /// <summary>
+        /// Gets a value based on the insurance type and information provided
+        /// </summary>        /// 
+        /// <param name="type"></param>
+        /// <param name="price"></param>
+        /// <param name="modelYear"></param>
+        /// <param name="squareMeters"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [Route("price")]
-        public HttpResponseMessage Get(string type, decimal price)
-        {
-            return PriceRequest(type, price, null, null);
-        }
-
-        [Route("price")]
-        public HttpResponseMessage Get(string type, decimal price, int? modelYear)
-        {
-            return PriceRequest(type, price, modelYear, null);
-        }
-
-        [Route("price")]       
-        public HttpResponseMessage Get(string type, decimal price, float? squareMeters)
-        {
-            return PriceRequest(type, price, null, squareMeters);
-        }
-        
-        private HttpResponseMessage PriceRequest(string type, decimal price, int? modelYear, float? squareMeters)
+        public HttpResponseMessage Get(string type, decimal price, int? modelYear = null, float? squareMeters = null)
         {
             Decimal insuranceValue = 0;
             //Validate token

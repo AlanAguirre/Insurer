@@ -45,6 +45,7 @@ namespace Insurer.Web.Service.Controllers
         }
 
         // POST: api/businesspartner/register
+        [AllowAnonymous]
         [Route("register")]
         public HttpResponseMessage Post(CompanyViewModel value)
         {

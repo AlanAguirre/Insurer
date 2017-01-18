@@ -4,12 +4,14 @@ using Insurer.Data;
 using Insurer.Data.Infrastructure;
 using Insurer.Data.Repositories;
 using Insurer.Service;
+using Insurer.Web.Service.Filters;
 using Insurer.Web.Service.Providers;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -106,15 +108,33 @@ namespace Insurer.Web.Service
             // to be Autofac.
             var container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+            
+            config.EnableSwagger(c => 
+            {
+                c.ApiKey("login")
+                    .Description("Bearer token")
+                    .Name("Authorization")
+                    .In("header");
+                c.OperationFilter(() => new AuthorizationHeaderParameterOperationFilter());
+                c.IncludeXmlComments(GetXmlCommentsPath());
+                c.SingleApiVersion("v1", "Insurer Web API");
+            }).EnableSwaggerUi(c =>
+            {
+                c.EnableApiKeySupport("Authorization", "header");
+            });
 
             // OWIN WEB API SETUP:
-
             // Register the Autofac middleware FIRST, then the Autofac Web API middleware,
             // and finally the standard Web API middleware.
             app.UseAutofacMiddleware(container);
             app.UseAutofacWebApi(config);
             app.UseWebApi(config);
             
+        }
+
+        private static string GetXmlCommentsPath()
+        {
+            return System.String.Format(@"{0}\bin\Insurer.Web.Service.XML", System.AppDomain.CurrentDomain.BaseDirectory);
         }
     }
 }
