@@ -18,12 +18,23 @@ namespace Insurer.Service
 
     public class InsuranceService : IInsuranceService
     {
+        private int currentYear;
+
+        public InsuranceService()
+        {
+            this.currentYear = DateTime.Now.Year;
+        }
+
+        public void setCurrentYear(int year)
+        {
+            this.currentYear = year;
+        }
+
         public decimal CalcInsuranceCar(decimal price, int modelYear)
         {            
-            var baseValue = (price * 6) / 100;
-            var currentYear = DateTime.Now.Year;
+            var baseValue = (price * 6) / 100;            
             decimal yearOfUsageValue;
-            var yearOfUsage = currentYear - modelYear;
+            var yearOfUsage = this.currentYear - modelYear;
             if(yearOfUsage > 20)
             {
                 baseValue = 0;
@@ -53,9 +64,8 @@ namespace Insurer.Service
         public decimal CalcInsuranceMotorcycle(decimal price, int modelYear)
         {
             var baseValue = (price * 6) / 100;
-            var currentYear = DateTime.Now.Year;
             decimal yearOfUsageValue;
-            var yearOfUsage = currentYear - modelYear;
+            var yearOfUsage = this.currentYear - modelYear;
             if (yearOfUsage > 20)
             {
                 baseValue = 0;
