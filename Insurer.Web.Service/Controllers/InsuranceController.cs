@@ -46,11 +46,11 @@ namespace Insurer.Web.Service.Controllers
 
         /// <summary>
         /// Gets a value based on the insurance type and information provided
-        /// </summary>        /// 
-        /// <param name="type"></param>
-        /// <param name="price"></param>
-        /// <param name="modelYear"></param>
-        /// <param name="squareMeters"></param>
+        /// </summary>
+        /// <param name="type">Insurance type</param>
+        /// <param name="price">Property or vehicle price that will be insured</param>
+        /// <param name="modelYear">Year of manufacture of the car or motorcycle</param>
+        /// <param name="squareMeters">M² - Used to calculate the insurance for farms</param>
         /// <returns></returns>
         [AllowAnonymous]
         [Route("price")]

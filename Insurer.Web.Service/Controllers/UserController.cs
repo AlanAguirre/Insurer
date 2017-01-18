@@ -13,6 +13,10 @@ namespace Insurer.Web.Service.Controllers
     [RoutePrefix("api/user")]
     public class UserController : ApiController
     {
+        /// <summary>
+        /// Checks if an user has the admin role
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator")]
         [Route("admin")]
         [HttpGet]

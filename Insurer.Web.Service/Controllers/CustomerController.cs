@@ -24,35 +24,36 @@ namespace Insurer.Web.Service.Controllers
             this.customerService = customerService;
         }
 
-        // GET: api/customer
+        /// <summary>
+        /// Gets a list of customers
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<CustomerViewModel> Get()
         {
             var customers = customerService.GetCustomers();
             return Mapper.Map<IEnumerable<Customer>, IEnumerable<CustomerViewModel>>(customers);
         }
 
-        // GET: api/Customer/5
+        /// <summary>
+        /// Get a customer
+        /// </summary>
+        /// <param name="id">Customer ID</param>
+        /// <returns></returns>
         public CustomerViewModel Get(int id)
         {
             var customer = customerService.GetCustomer(id);
             return Mapper.Map<Customer,CustomerViewModel>(customer);
         }
 
-        // POST: api/Customer
+        /// <summary>
+        /// Creates a new customer
+        /// </summary>
+        /// <param name="value">Customer json</param>
         [Authorize(Roles = "Administrator")]
         public void Post(CustomerViewModel value)
         {
             customerService.CreateCustomer(Mapper.Map<CustomerViewModel, Customer>(value));                        
         }
 
-        // PUT: api/Customer/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        // DELETE: api/Customer/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

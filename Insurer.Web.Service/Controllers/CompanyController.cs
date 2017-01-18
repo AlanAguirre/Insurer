@@ -25,7 +25,10 @@ namespace Insurer.Web.Service.Controllers
             this.companyLogService = companyLogService;
         }
 
-        // GET: api/businesspartner/companies
+        /// <summary>
+        /// Gets a list with all companies registered
+        /// </summary>
+        /// <returns></returns>
         [Authorize]
         [Route("companies")]
         public IEnumerable<CompanyViewModel> Get()
@@ -34,7 +37,10 @@ namespace Insurer.Web.Service.Controllers
             return Mapper.Map<IEnumerable<Company>, IEnumerable<CompanyViewModel>>(companies);
         }
 
-        // GET: api/businesspartner/companies
+        /// <summary>
+        /// Gets a list of companies that are consuming the service and the quantity of what type of insurance they want to know
+        /// </summary>
+        /// <returns></returns>
         [Authorize(Roles = "Administrator")]
         [Route("companies/log")]
         [HttpGet]
@@ -44,7 +50,11 @@ namespace Insurer.Web.Service.Controllers
             return companyLogService.GetCompaniesLog();
         }
 
-        // POST: api/businesspartner/register
+        /// <summary>
+        /// Registers a company to get the service token to use the API
+        /// </summary>
+        /// <param name="value">Company information</param>
+        /// <returns>ServiceToken</returns>
         [AllowAnonymous]
         [Route("register")]
         public HttpResponseMessage Post(CompanyViewModel value)
