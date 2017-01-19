@@ -13,6 +13,16 @@ import {Toolbar, ToolbarGroup} from 'material-ui/Toolbar'
 
 import {Login} from "./login"
 
+import { Provider } from 'react-redux'
+import { createStore, combineReducers } from 'redux'
+import { reducer as reduxFormReducer } from 'redux-form'
+
+const reducer = combineReducers({
+  form: reduxFormReducer // mounted under "form"
+})
+const store =
+  (createStore)(reducer)
+  
 export default class App extends React.Component{
   constructor(props) {
     super(props)
@@ -59,27 +69,29 @@ componentDidMount(){
    Logged.muiName = 'IconMenu';
     
     return (
-      <MuiThemeProvider>        
-        <div>
-          <AppBar
-            title="Insurer Portal"
-            iconElementLeft={null}
-            iconElementRight={this.state.loggedIn ? <Logged /> : null}
-          />
-          {this.state.loggedIn ? (
-            <Toolbar>
-              <ToolbarGroup>
-                <Link className={"linkMenu"} activeClassName={"linkMenuActive"} to="/customers">Customers</Link>
-                <Link className={"linkMenu"} activeClassName={"linkMenuActive"} to="/businesspartner">Business Partners</Link>
-              </ToolbarGroup>              
-            </Toolbar>
-          ) : (
-            null
-          )}
-              
-          {this.props.children}
-        </div>
-      </MuiThemeProvider>
+      <Provider store={store}>
+        <MuiThemeProvider>        
+          <div>
+            <AppBar
+              title="Insurer Portal"
+              iconElementLeft={null}
+              iconElementRight={this.state.loggedIn ? <Logged /> : null}
+            />
+            {this.state.loggedIn ? (
+              <Toolbar>
+                <ToolbarGroup>
+                  <Link className={"linkMenu"} activeClassName={"linkMenuActive"} to="/customers">Customers</Link>
+                  <Link className={"linkMenu"} activeClassName={"linkMenuActive"} to="/businesspartner">Business Partners</Link>
+                </ToolbarGroup>              
+              </Toolbar>
+            ) : (
+              null
+            )}
+                
+            {this.props.children}
+          </div>
+        </MuiThemeProvider>
+      </Provider>
     )
   }
 }

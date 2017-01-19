@@ -1,11 +1,33 @@
 import React from "react"
 
-import Paper from 'material-ui/Paper'
-import TextField from 'material-ui/TextField'
-import Checkbox from '../commons/checkBox'
+
+import CheckboxItem from '../commons/checkBox'
 import FlatButton from 'material-ui/FlatButton'
 import ErrorMessage from '../commons/errorMessage'
+import { Field, reduxForm } from 'redux-form'
+import {  
+  TextField
+} from 'redux-form-material-ui'
 
+// validation functions
+const required = value => value === null ? 'Required' : undefined
+const email = value => value &&
+  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value) ? 'Invalid email' : undefined
+  
+ const validate = values => {
+  const errors = {}
+  const requiredFields = [ 'name', 'email', 'phoneNumber' ]
+  requiredFields.forEach(field => {
+    if (!values[ field ]) {
+      errors[ field ] = 'Required'
+    }
+  })
+  if (values.email && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    errors.email = 'Invalid email address'
+  }
+  return errors
+} 
+ 
 class CustomerAdd extends React.Component{
   constructor(props) {
     super(props)   
@@ -25,17 +47,19 @@ class CustomerAdd extends React.Component{
   handleFormSubmit (e) {
     e.preventDefault();
 
-    const name = this.refs.name.input.value
-    const email = this.refs.email.input.value
-    const phoneNumber = this.refs.phoneNumber.input.value
-    const adress = this.refs.adress.input.value
+    const name = this.refs.name.value
+    const email = this.refs.email.value
+    const phoneNumber = this.refs.phoneNumber.value
+    const address = this.refs.address.value
     
-    if(!(name && email && phoneNumber)){
-        this.setState({
+    if(!name || !email || !phoneNumber){
+      this.setState({
             error : "Name, email and phone number are required."
         })
+      return;
     }
     
+       
     const insuranceType = []
     for (const item of this.selectedCheckboxes) {
       
@@ -50,7 +74,7 @@ class CustomerAdd extends React.Component{
         Name: name,
         Email: email,
         PhoneNumber: phoneNumber,
-        Address: adress,
+        Address: address,
         InsuranceTypes: insuranceType
     }
     
@@ -65,62 +89,69 @@ class CustomerAdd extends React.Component{
   }
   
   componentDidMount() {
-    
+    this.refs.name            // the Field
+      .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
+      .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
+      .focus()                // on TextField
   }
     
   render() {
-    const {insuranceTypes, handleCancel} = this.props
+    const {insuranceTypes, handleCancel, pristine, reset, submitting} = this.props
     const createCheckbox = item => (
-    <Checkbox
+    <CheckboxItem
+            key={"checBox" + item.Name}
             item={{id: item.InsuranceTypeId, name: item.Name}}
-            handleCheckboxChange={this.toggleCheckbox}
-            key={item.name}
+            handleCheckboxChange={this.toggleCheckbox}            
         />
     )        
             
     return (
-        <form onSubmit={this.handleFormSubmit}>             
-          <Paper zDepth={2} style={{padding: 20}}>
-            {this.state.error !== "" ? 
+        <form style={{padding: 20}} onSubmit={this.handleFormSubmit}>      
+          {this.state.error !== "" ? 
                 <ErrorMessage message={this.state.error} />
                 :
                 null    
             }
-            <TextField
-                    ref="name"
-                    hintText="Name"
-                    floatingLabelText="Name"
-                    required="required"
-                    /><br/>
-            <TextField
-                  ref="email"
-                  hintText="Email"
-                  floatingLabelText="Email"
-                  type="email"
-                  required="required"
-                /><br/>
-            <TextField
-                ref="phoneNumber"
-                hintText="Phone Number"
-                floatingLabelText="Phone Number"
-                required="required"
-                /><br/>
-             <TextField
-                ref="adress"
-                hintText="Adress"
-                floatingLabelText="Adress"
-                /><br/>
-                <h3>
-                    Insurance types
-                </h3>
-                {insuranceTypes.map(createCheckbox)}   
+          <div>
+            <Field name="name"
+              component={TextField}
+              hintText="Name"
+              floatingLabelText="Name"
+              ref="name" withRef/>
+          </div>
+          <div>
+            <Field name="email"
+              component={TextField}
+              hintText="Email"
+              floatingLabelText="Email"
+              ref="email" withRef/>
+          </div>
+          <div>
+            <Field name="phoneNumber"
+              component={TextField}
+              hintText="Phone Number"
+              floatingLabelText="Phone Number"
+              ref="phoneNumber" withRef/>
+          </div>
+          <div>
+            <Field name="address"
+              component={TextField}
+              hintText="Address"
+              floatingLabelText="Address"
+              ref="address" withRef/>
+          </div>
+          <div>
+            <h3>
+                Insurance types
+            </h3>
+            {insuranceTypes.map(createCheckbox)}
+          </div>
+                   
                 
-                <div style={{marginTop:20, display:'flex'}}>
-                    <FlatButton label="Submit" primary={true} type="submit" />
-                    <FlatButton label="Cancel" onClick={handleCancel} /> 
-                </div>
-                       
-           </Paper>          
+          <div style={{marginTop:20, display:'flex'}}>
+              <FlatButton label="Submit" disabled={pristine || submitting} primary={true} type="submit" />
+              <FlatButton label="Cancel" onClick={handleCancel} /> 
+          </div>                
         </form>
     )
   }
@@ -136,4 +167,7 @@ CustomerAdd.propTypes = {
   handleCancel: React.PropTypes.func.isRequired
 }
 
-export default CustomerAdd
+export default reduxForm({
+  form: 'customerForm',
+  validate
+})(CustomerAdd)

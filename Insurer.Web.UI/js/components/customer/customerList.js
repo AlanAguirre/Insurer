@@ -36,7 +36,7 @@ export default class CustomerList extends React.Component{
                         <TableRowColumn title={row.Address}>{row.Address}</TableRowColumn>
                         <TableRowColumn>{
                             row.InsuranceTypes.map((type) => {
-                            return <div>{type.Name}</div>
+                            return <div key={"type" + type.InsuranceTypeId}>{type.Name}</div>
                         })
                     }
                         </TableRowColumn>

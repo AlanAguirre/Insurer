@@ -28,7 +28,7 @@ export default class BusinessPartnerList extends React.Component{
                 </TableHeader>
                 <TableBody displayRowCheckbox={false}>                
                    {this.props.companiesLog.map( (row, index) => (
-                    <TableRow key={row.Company}>
+                    <TableRow key={"bus" + row.Company}>
                         <TableRowColumn>{row.Company}</TableRowColumn>
                         <TableRowColumn style={columnStyle}>{row.Car + "%"}</TableRowColumn>
                         <TableRowColumn style={columnStyle}>{row.Motorcycle + "%"}</TableRowColumn>

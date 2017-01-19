@@ -50,9 +50,18 @@ namespace Insurer.Web.Service.Controllers
         /// </summary>
         /// <param name="value">Customer json</param>
         [Authorize(Roles = "Administrator")]
-        public void Post(CustomerViewModel value)
+        public HttpResponseMessage Post(CustomerViewModel value)
         {
-            customerService.CreateCustomer(Mapper.Map<CustomerViewModel, Customer>(value));                        
+            if (ModelState.IsValid)
+            {
+                customerService.CreateCustomer(Mapper.Map<CustomerViewModel, Customer>(value));
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            }
+            else
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+                                 
         }
 
     }
