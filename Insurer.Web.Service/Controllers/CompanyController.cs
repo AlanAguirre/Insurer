@@ -41,7 +41,7 @@ namespace Insurer.Web.Service.Controllers
         /// Gets a list of companies that are consuming the service and the quantity of what type of insurance they want to know
         /// </summary>
         /// <returns></returns>
-        [Authorize(Roles = "Administrator")]
+        [Authorize]
         [Route("companies/log")]
         [HttpGet]
         public IEnumerable<CompanyLogView> GetCompaniesLog()
@@ -59,14 +59,21 @@ namespace Insurer.Web.Service.Controllers
         [Route("register")]
         public HttpResponseMessage Post(CompanyViewModel value)
         {
-            var token = companyService.RegisterCompany(Mapper.Map<CompanyViewModel, Company>(value));
-            if (string.IsNullOrEmpty(token))
-                return this.Request.CreateResponse(
-                        HttpStatusCode.BadRequest);
+            if (ModelState.IsValid)
+            {
+                var token = companyService.RegisterCompany(Mapper.Map<CompanyViewModel, Company>(value));
+                if (string.IsNullOrEmpty(token))
+                    return this.Request.CreateResponse(
+                            HttpStatusCode.BadRequest);
+                else
+                    return this.Request.CreateResponse(
+                            HttpStatusCode.OK,
+                            new { ServiceToken = token });
+            }
             else
-                return this.Request.CreateResponse(
-                        HttpStatusCode.OK,
-                        new { ServiceToken = token });
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }                        
         }
         
     }
